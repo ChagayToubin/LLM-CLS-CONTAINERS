@@ -7,7 +7,6 @@ app = FastAPI()
 
 my_manager = manger()
 
-
 @app.get("/", response_class=HTMLResponse)
 def choose_target():
 
@@ -19,7 +18,6 @@ def choose_target():
     html += "</select><input type='submit' value='Next'/></form>"
 
     return f"<html><body>{html}</body></html>"
-
 
 @app.post("/choose", response_class=HTMLResponse)
 async def ask_values(request: Request):
@@ -44,8 +42,6 @@ async def ask_values(request: Request):
     html += "<input type='submit' value='Submit' /></form>"
     return f"<html><body>{html}</body></html>"
 
-
-
 @app.post("/submit", response_class=HTMLResponse)
 async def show_result(request: Request):
     form = await request.form()
@@ -63,9 +59,9 @@ async def show_result(request: Request):
 
         url = "http://127.0.0.1:8001/process"
 
-
-
         response = requests.post(url, json=manager_json)
+        print(response)
+
         print(response.text[1:-1])
         print(type(response.text))
 

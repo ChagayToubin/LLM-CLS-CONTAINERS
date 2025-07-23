@@ -5,7 +5,6 @@ app = FastAPI()
 
 
 import pandas as pd
-import json
 
 
 @app.post("/process")
