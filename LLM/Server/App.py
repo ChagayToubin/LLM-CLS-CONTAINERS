@@ -9,7 +9,6 @@ my_manager = manger()
 
 @app.get("/", response_class=HTMLResponse)
 def choose_target():
-
     columns = list(my_manager.dfm.columns)
     html = "<h2>chosh somthing to ask?</h2><form method='post' action='/choose'>"
     html += "<select name='target_column'>"
@@ -25,9 +24,10 @@ async def ask_values(request: Request):
     target_column = form["target_column"]
 
     my_manager.question = target_column
+
     my_manager.dic = manger.enter_ask_enter_conditin(my_manager.dfm, target_column)
 
-    # עמודות (חוץ מהשאלה)
+
     input_columns = [col for col in my_manager.dfm.columns if col != target_column]
 
     html = f"<h2>Enter values  (Target: {target_column})</h2>"
@@ -41,7 +41,6 @@ async def ask_values(request: Request):
 
     html += "<input type='submit' value='Submit' /></form>"
     return f"<html><body>{html}</body></html>"
-
 @app.post("/submit", response_class=HTMLResponse)
 async def show_result(request: Request):
     form = await request.form()
@@ -56,17 +55,19 @@ async def show_result(request: Request):
             "dic": my_manager.dic,
             "list_condition":user_input
         }
-
         url = "http://127.0.0.1:8001/process"
-
         response = requests.post(url, json=manager_json)
         print(response)
 
         print(response.text[1:-1])
         print(type(response.text))
 
-        # result = classified.classified_by_input(my_manager, user_input)
+
         result=response.text[1:-1]
+        print("------------")
+        precntvld = my_manager.Vldition()
+        print(precntvld, "----------------")
+
 
     except Exception as e:
         return f"<p> Error while classifying: {str(e)}</p><a href='/'>Back</a>"
@@ -75,6 +76,8 @@ async def show_result(request: Request):
         <body>
             <h2> Prediction for <u>{target_column}</u></h2>
             <p><b>Your input values:</b> {user_input}</p>
+            <p><b>Your test precent values:</b> {precntvld}</p>
+            
             <p><b>Prediction result:</b> <span style='color: green;'>"!" +{result }+"!"</span></p>
             <a href="/"> Try Again</a>
         </body>

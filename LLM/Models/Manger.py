@@ -1,9 +1,8 @@
 
-from LLM.Models.Clean import clean
-from LLM.Models.Loader import  loader
-from LLM.Models.Training_models import training_models
-# from LLM.Models.Classified import classified
-# from LLM.Models.check_precent import check
+from LLM.Models.CLN import clean
+from LLM.Models.DAT import  loader
+from LLM.Models.BLD import training_models
+from LLM.Models.VLD import check
 import json
 class manger:
     def __init__(self):
@@ -17,7 +16,13 @@ class manger:
         self.dfm=df_random[:split_index]
         self.check_test = df_random[split_index:]
 
+
+
         return
+
+    def Vldition(self):
+        return check.precent_right(self)
+
     @staticmethod
     def chose_whate_to_do():
         print('------------------\n'
@@ -50,25 +55,4 @@ class manger:
             exemple = instance.dfm[inp].unique()
             print(f" please enter  {inp} \nexeple {exemple}")
             list.append(input())
-
         return list
-    def control_all(self):
-
-        self.choice = manger.chose_whate_to_do()
-        self.question = manger.get_question_check(self.dfm)
-        self.dic = manger.enter_ask_enter_conditin(self.dfm, self.question)
-        print(self.question+"===")
-
-        if   self.choice == '1':
-            list_condition = manger.enter_value(self)
-
-
-            # answer=classified.classified_by_input(self,list_condition)
-
-            print(f"The highest probability is that  {self.question} it is {answer} ")
-
-        elif self.choice=='2':
-            # check.precent_right(self)
-            print()
-        else:
-            print('unvalide inpute')
