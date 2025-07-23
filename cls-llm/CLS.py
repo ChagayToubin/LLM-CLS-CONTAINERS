@@ -23,7 +23,6 @@ async def process_data(request: Request):
     if not isinstance(dic, dict):
         raise ValueError("Expected 'dic' to be a dictionary")
 
-
     list_condition = body.get("list_condition", [])
     if isinstance(list_condition, str):
 
